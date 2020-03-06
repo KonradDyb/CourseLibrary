@@ -27,5 +27,13 @@ namespace CourseLibrary.API.Controllers
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
             return new JsonResult(authorsFromRepo);
         }
+
+        [HttpGet("{authorId}")] // use "{authorId:guid}" if you have second route. This route will only match if the
+                                                                                 // authorId is casted to a Guid
+        public IActionResult GetAuthor(Guid authorId)
+        {
+            var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
+            return new JsonResult(authorFromRepo);
+        }
     }
 }
