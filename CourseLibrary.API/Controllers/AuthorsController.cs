@@ -25,7 +25,7 @@ namespace CourseLibrary.API.Controllers
         public IActionResult GetAuthors()
         {
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
-            return new JsonResult(authorsFromRepo);
+            return Ok(authorsFromRepo);
         }
 
         [HttpGet("{authorId}")] // use "{authorId:guid}" if you have second route. This route will only match if the
@@ -33,7 +33,14 @@ namespace CourseLibrary.API.Controllers
         public IActionResult GetAuthor(Guid authorId)
         {
             var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
-            return new JsonResult(authorFromRepo);
+
+            if (authorFromRepo == null)
+            {
+                return NotFound();
+            }
+
+           
+            return Ok(authorFromRepo);
         }
     }
 }
