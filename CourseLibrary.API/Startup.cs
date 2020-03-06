@@ -41,11 +41,11 @@ namespace CourseLibrary.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseRouting(); // how request is routed to controller action
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints => // how request is routed to controller action
             {
                 endpoints.MapControllers();
             });
