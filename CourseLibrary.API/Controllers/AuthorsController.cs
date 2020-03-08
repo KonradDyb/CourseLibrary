@@ -1,4 +1,6 @@
-﻿using CourseLibrary.API.Services;
+﻿using CourseLibrary.API.Helpers;
+using CourseLibrary.API.Models;
+using CourseLibrary.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,19 @@ namespace CourseLibrary.API.Controllers
         public IActionResult GetAuthors()
         {
             var authorsFromRepo = _courseLibraryRepository.GetAuthors();
-            return Ok(authorsFromRepo);
+            var authors = new List<AuthorDto>();
+
+            foreach (var author in authorsFromRepo)
+            {
+                authors.Add(new AuthorDto()
+                {
+                    Id = author.Id,
+                    Name = $"{author.FirstName} {author.LastName}",
+                    MainCategory = author.MainCategory,
+                    Age = author.DateOfBirth.GetCurrentAge()
+                });
+            }
+            return Ok(authors);
         }
 
         [HttpGet("{authorId}")] // use "{authorId:guid}" if you have second route. This route will only match if the
@@ -34,13 +48,23 @@ namespace CourseLibrary.API.Controllers
         {
             var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
 
+            //if (!_courseLibraryRepository.AuthorExists(authorId))
+            //{
+            //    return NotFound();
+            //}
+
+
             if (authorFromRepo == null)
             {
+                // Get the author and do a null check if we need the entity afterwards. 
+                // In this case for returning. If you don't need entity afterwards, use Exist check like above.
+
                 return NotFound();
             }
 
            
             return Ok(authorFromRepo);
+            
         }
     }
 }

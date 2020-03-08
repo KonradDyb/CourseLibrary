@@ -25,7 +25,7 @@ namespace CourseLibrary.API
         {
            services.AddControllers(setupAction =>
            {
-               setupAction.ReturnHttpNotAcceptable = true; // The API will return responses in the default supported                                              format if an unsupported media type is requested.
+               setupAction.ReturnHttpNotAcceptable = true; // if = false so The API will return responses in the default                                          supported format if an unsupported media type is requested.
 
            }).AddXmlDataContractSerializerFormatters(); // Adding a possibility for XML output format
 
@@ -46,11 +46,11 @@ namespace CourseLibrary.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting(); // how request is routed to controller action
+            app.UseRouting(); // marks the position in the middleware pipeline where and endpoint is selected 
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => // how request is routed to controller action
+            app.UseEndpoints(endpoints => // marks the position in the middleware pipeline where endpoint is executed
             {
                 endpoints.MapControllers();
             });
