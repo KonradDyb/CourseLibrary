@@ -50,6 +50,19 @@ namespace CourseLibrary.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    // Run the code we write to the run statement
+                    // That piece of code will be executed when an unhandled exception happens
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+                    });
+                });
+            }
 
             app.UseRouting(); // marks the position in the middleware pipeline where and endpoint is selected 
 
