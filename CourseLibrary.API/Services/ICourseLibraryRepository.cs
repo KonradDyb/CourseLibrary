@@ -19,5 +19,6 @@ namespace CourseLibrary.API.Services
         void UpdateAuthor(Author author);
         bool AuthorExists(Guid authorId);
         bool Save();
+        IEnumerable<Author> GetAuthors(string mainCategory);
     }
 }
