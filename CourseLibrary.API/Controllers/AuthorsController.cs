@@ -37,7 +37,7 @@ namespace CourseLibrary.API.Controllers
             return Ok(_mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo));
         }
 
-        [HttpGet("{authorId}")] // use "{authorId:guid}" if you have second route. This route will only match if the
+        [HttpGet("{authorId}", Name = "GetAuthor")] // use "{authorId:guid}" if you have second route. This route will only match if the
                                                                                  // authorId is casted to a Guid
         public IActionResult GetAuthor(Guid authorId)
         {
@@ -59,6 +59,23 @@ namespace CourseLibrary.API.Controllers
 
             return Ok(_mapper.Map<AuthorDto>(authorFromRepo));
             
+        }
+
+        [HttpPost]
+        public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
+        {
+            // if we using the API controller attribute, that already ensures that a Bad request is automatically
+            // returned. So we don't need to check if author is null and return bad request.
+
+            var authorEntity = _mapper.Map<Entities.Author>(author);
+            _courseLibraryRepository.AddAuthor(authorEntity);
+            _courseLibraryRepository.Save();
+
+            var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
+            return CreatedAtRoute("GetAuthor", 
+                new { authorId = authorToReturn.Id },
+                authorToReturn);
+
         }
     }
 }

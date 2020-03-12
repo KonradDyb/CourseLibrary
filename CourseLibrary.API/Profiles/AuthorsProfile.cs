@@ -22,6 +22,8 @@ namespace CourseLibrary.API.Profiles
 
             // For Member "Name" on the destination object, we want it to be mapped from the source's
             // FirstName and LastName
+
+            CreateMap<Models.AuthorForCreationDto, Entities.Author>();
         }
     }
 }
