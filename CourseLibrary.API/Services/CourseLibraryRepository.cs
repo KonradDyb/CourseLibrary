@@ -85,6 +85,7 @@ namespace CourseLibrary.API.Services
                 course.Id = Guid.NewGuid();
             }
 
+            // DbContext contains new author and the new list of courses for that author
             _context.Authors.Add(author);
         }
 
