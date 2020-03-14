@@ -77,5 +77,16 @@ namespace CourseLibrary.API.Controllers
                 authorToReturn);
 
         }
+
+        // Options will let us know whether or not we can get the resource, post to it, delete it, and
+        //  so on. It just works on the resource level. Options are returned in the allow header as 
+        // a comma-seperated list of methods.
+ 
+        [HttpOptions]
+        public IActionResult GetAuthorsOptions()
+        {
+            Response.Headers.Add("Allow", "GET,OPTIONS,POST");
+            return Ok();
+        }
     }
 }
