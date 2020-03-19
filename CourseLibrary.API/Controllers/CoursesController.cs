@@ -99,6 +99,9 @@ namespace CourseLibrary.API.Controllers
             // map the CourseForUpdateDto back to an entity
             _mapper.Map(course, courseForAuthorFromRepo);
             _courseLibraryRepository.UpdateCourse(courseForAuthorFromRepo);
+
+            _courseLibraryRepository.Save();
+            return NoContent();
         }
     } 
 }
