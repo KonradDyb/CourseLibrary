@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace CourseLibrary.API
@@ -28,10 +29,16 @@ namespace CourseLibrary.API
         {
            services.AddControllers(setupAction =>
            {
-               setupAction.ReturnHttpNotAcceptable = true; // if = false so The API will return responses in the default                                          supported format if an unsupported media type is requested.
-
+               setupAction.ReturnHttpNotAcceptable = true; // if = false so The API will return responses in the default                                          supported format if an unsupported media type is requested. 
+           })
+                // Default formatter is simply the one that was added first. Now it is Json.
+                // If I swap AddXml with AddNewtonsoftJson then default formatter will be XML.
+                .AddNewtonsoftJson(setupAction =>
+           {
+               setupAction.SerializerSettings.ContractResolver =
+                  new CamelCasePropertyNamesContractResolver();
            }).AddXmlDataContractSerializerFormatters()
-           .ConfigureApiBehaviorOptions(setupAction =>
+             .ConfigureApiBehaviorOptions(setupAction =>
            {
                setupAction.InvalidModelStateResponseFactory = context =>
                {
