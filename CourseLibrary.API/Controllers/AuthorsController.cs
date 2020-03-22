@@ -88,5 +88,24 @@ namespace CourseLibrary.API.Controllers
             Response.Headers.Add("Allow", "GET,OPTIONS,POST");
             return Ok();
         }
+
+        [HttpDelete("{authorId}")]
+        public ActionResult DeleteAuthor(Guid authorId)
+        {
+            var authorFromRepo = _courseLibraryRepository.GetAuthor(authorId);
+
+            if (authorFromRepo == null)
+            {
+                return NotFound();
+            }
+            
+            // When we delete author with EF Core, courses for that author are deleted as well.
+            _courseLibraryRepository.DeleteAuthor(authorFromRepo);
+
+            _courseLibraryRepository.Save();
+
+            return NoContent();
+        }
+
     }
 }
