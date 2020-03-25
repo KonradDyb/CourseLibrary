@@ -1,4 +1,5 @@
 ﻿using CourseLibrary.API.Entities;
+using CourseLibrary.API.Helpers;
 using CourseLibrary.API.ResourceParameters;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,6 @@ namespace CourseLibrary.API.Services
         void UpdateAuthor(Author author);
         bool AuthorExists(Guid authorId);
         bool Save();
-        IEnumerable<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters);
+        PagedList<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters);
     }
 }
