@@ -60,6 +60,8 @@ namespace CourseLibrary.API
                };
            }); // Adding a possibility for XML output format
 
+
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
                                    // we are loading all assemblies in the current domain
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
