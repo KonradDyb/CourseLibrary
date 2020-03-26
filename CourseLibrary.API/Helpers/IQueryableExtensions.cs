@@ -29,11 +29,12 @@ namespace CourseLibrary.API.Helpers
             }
 
             // the orderBy string is seperated by ",", so we split it.
+            var orderByString = string.Empty;
             var orderByAfterSplit = orderBy.Split(',');
 
             // apply each orderby clause in reverse order - otherwise, the
             // IQueryable will be ordered in the wrong order
-            foreach (var orderByClause in orderByAfterSplit.Reverse())
+            foreach (var orderByClause in orderByAfterSplit)
             {
                 // trim the orderBy clause, as it might contain leading
                 // or trailing spaces. Can't trim the var in foreach,
@@ -67,19 +68,21 @@ namespace CourseLibrary.API.Helpers
                 // Run through the property names in reverse
                 // so the orderby clauses are applied in the correct order
                 foreach (var destinationProperty in
-                    propertyMappingValue.DestinationProperties.Reverse())
+                    propertyMappingValue.DestinationProperties)
                 {
                     // revert sort order if necessary
                     if (propertyMappingValue.Revert)
                     {
                         orderDescending = !orderDescending;
                     }
-                    source = source.OrderBy(destinationProperty +
-                        (orderDescending ? " descending" : " ascending"));
+                    orderByString = orderByString +
+                        (string.IsNullOrWhiteSpace(orderByString) ? string.Empty : ", ")
+                        + destinationProperty
+                        + (orderDescending ? " descending" : " ascending");
                 }
             }
 
-            return source;
+            return source.OrderBy(orderByString);
         }
     }
 }
