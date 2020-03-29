@@ -62,6 +62,7 @@ namespace CourseLibrary.API
 
 
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+            services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
                                    // we are loading all assemblies in the current domain
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
