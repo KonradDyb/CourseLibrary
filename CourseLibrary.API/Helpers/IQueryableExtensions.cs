@@ -48,6 +48,7 @@ namespace CourseLibrary.API.Helpers
                 // remove " asc" or " desc" from the orderByClause, so we
                 // get the property name to look for in the mapping dictionary
                 var indexOfFirstSpace = trimmedOrderByClause.IndexOf(" ");
+                // method IndexOf return -1 if it doesnt search index of concrete string
                 var propertyName = indexOfFirstSpace == -1 ?
                     trimmedOrderByClause : trimmedOrderByClause.Remove(indexOfFirstSpace);
 
