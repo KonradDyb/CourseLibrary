@@ -129,7 +129,7 @@ namespace CourseLibrary.API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateAuthor")]
         public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
         {
             // if we using the API controller attribute, that already ensures that a Bad request is automatically
