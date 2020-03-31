@@ -129,16 +129,24 @@ namespace CourseLibrary.API.Controllers
             _courseLibraryRepository.Save();
 
             var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
-            return CreatedAtRoute("GetAuthor", 
-                new { authorId = authorToReturn.Id },
-                authorToReturn);
+
+            var links = CreateLinksForAuthor(authorToReturn.Id, null);
+
+            var linkedResourceToReturn = authorToReturn.ShapeData(null)
+                as IDictionary<string, object>;
+            linkedResourceToReturn.Add("links", links);
+
+            return CreatedAtRoute("GetAuthor",
+                new { authorId = linkedResourceToReturn["Id"] },
+                linkedResourceToReturn);
+
 
         }
 
         // Options will let us know whether or not we can get the resource, post to it, delete it, and
         //  so on. It just works on the resource level. Options are returned in the allow header as 
         // a comma-seperated list of methods.
- 
+
         [HttpOptions]
         public IActionResult GetAuthorsOptions()
         {
