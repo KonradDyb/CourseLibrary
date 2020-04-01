@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseLibrary.API.ActionConstraints;
 using CourseLibrary.API.Entities;
 using CourseLibrary.API.Helpers;
 using CourseLibrary.API.Models;
@@ -172,7 +173,40 @@ namespace CourseLibrary.API.Controllers
             return Ok(friendlyResourceToReturn);
         }
 
+
+        [HttpPost(Name = "CreateAuthorWithDateOfDeath")]
+        [RequestHeaderMatchesMediaType("Content-Type",
+         "application/vnd.marvin.authorforcreationwithdateofdeath+json")]
+        [Consumes("application/vnd.marvin.authorforcreationwithdateofdeath+json")]
+
+        public ActionResult<AuthorDto> CreateAuthorWithDateOfDeath(
+         AuthorForCreationWithDateOfDeathDto author)
+        {
+
+            var authorEntity = _mapper.Map<Entities.Author>(author);
+            _courseLibraryRepository.AddAuthor(authorEntity);
+            _courseLibraryRepository.Save();
+
+            var authorToReturn = _mapper.Map<AuthorDto>(authorEntity);
+
+            var links = CreateLinksForAuthor(authorToReturn.Id, null);
+
+            var linkedResourceToReturn = authorToReturn.ShapeData(null)
+                as IDictionary<string, object>;
+            linkedResourceToReturn.Add("links", links);
+
+            return CreatedAtRoute("GetAuthor",
+                new { authorId = linkedResourceToReturn["Id"] },
+                linkedResourceToReturn);
+        }
+
         [HttpPost(Name = "CreateAuthor")]
+        [RequestHeaderMatchesMediaType("Content-Type",
+            "application/json",
+            "application/vnd.marvin.authorforcreation+json")]
+        [Consumes("application/json",
+            "application/vnd.marvin.authorforcreation+json")]
+
         public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto author)
         {
             // if we using the API controller attribute, that already ensures that a Bad request is automatically
@@ -193,9 +227,9 @@ namespace CourseLibrary.API.Controllers
             return CreatedAtRoute("GetAuthor",
                 new { authorId = linkedResourceToReturn["Id"] },
                 linkedResourceToReturn);
-
-
         }
+
+     
 
         // Options will let us know whether or not we can get the resource, post to it, delete it, and
         //  so on. It just works on the resource level. Options are returned in the allow header as 

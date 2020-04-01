@@ -18,12 +18,14 @@ namespace CourseLibrary.API.Profiles
                     opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
                 .ForMember(
                     dest => dest.Age,
-                    opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
+                    opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge(src.DateOfDeath)));
 
             // For Member "Name" on the destination object, we want it to be mapped from the source's
             // FirstName and LastName
 
             CreateMap<Models.AuthorForCreationDto, Entities.Author>();
+
+            CreateMap<Models.AuthorForCreationWithDateOfDeathDto, Entities.Author>();
 
             CreateMap<Entities.Author, Models.AuthorFullDto>();
         }
