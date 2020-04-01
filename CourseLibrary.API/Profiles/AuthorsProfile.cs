@@ -24,6 +24,8 @@ namespace CourseLibrary.API.Profiles
             // FirstName and LastName
 
             CreateMap<Models.AuthorForCreationDto, Entities.Author>();
+
+            CreateMap<Entities.Author, Models.AuthorFullDto>();
         }
     }
 }
