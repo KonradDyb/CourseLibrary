@@ -28,6 +28,7 @@ namespace CourseLibrary.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           services.AddResponseCaching();
            services.AddControllers(setupAction =>
            {
                setupAction.ReturnHttpNotAcceptable = true; // if = false so The API will return responses in the default                                          supported format if an unsupported media type is requested. 
@@ -106,6 +107,8 @@ namespace CourseLibrary.API
                     });
                 });
             }
+
+            app.UseResponseCaching();
 
             app.UseRouting(); // marks the position in the middleware pipeline where and endpoint is selected 
 
