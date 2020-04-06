@@ -32,6 +32,12 @@ namespace CourseLibrary.API
            services.AddControllers(setupAction =>
            {
                setupAction.ReturnHttpNotAcceptable = true; // if = false so The API will return responses in the default                                          supported format if an unsupported media type is requested. 
+               setupAction.CacheProfiles.Add("240SecondsCacheProfile",
+                   new CacheProfile
+                   {
+                       Duration = 240
+                   });
+
            })
                 // Default formatter is simply the one that was added first. Now it is Json.
                 // If I swap AddXml with AddNewtonsoftJson then default formatter will be XML.
